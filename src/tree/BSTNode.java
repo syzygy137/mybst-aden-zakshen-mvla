@@ -29,7 +29,8 @@ public class BSTNode<E> {
 	 * @param parent the parent
 	 */
 	public BSTNode(E e, BSTNode<E> parent) {
-		// TODO: Complete the constructor
+		this.parent = parent;
+		this.data = e;
 	}
 
 	/**
@@ -38,8 +39,7 @@ public class BSTNode<E> {
 	 * @return the data
 	 */
 	E getData() {
-		// TODO: Complete this method
-		return null;
+		return data;
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class BSTNode<E> {
 	 * @param data the new data
 	 */
 	void setData(E data) {
-		// TODO: Complete this method
+		this.data = data;
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class BSTNode<E> {
 	 * @param node the new parent
 	 */
 	void setParent(BSTNode<E> node) {
-		// TODO: Complete this method
+		this.parent = node;
 	}
 	
 	/**
@@ -66,8 +66,7 @@ public class BSTNode<E> {
 	 * @return the parent
 	 */
 	BSTNode<E> getParent() {
-		// TODO: Complete this method
-		return null;
+		return parent;
 	}
 	
 	/**
@@ -76,8 +75,7 @@ public class BSTNode<E> {
 	 * @return the left child
 	 */
 	 BSTNode<E> getLeftChild() {
-		// TODO: Complete this method
-		return null;
+		return left;
 	}
 
 	/**
@@ -86,8 +84,7 @@ public class BSTNode<E> {
 	 * @return the right child
 	 */
 	BSTNode<E> getRightChild() {
-		// TODO: Complete this method
-		return null;
+		return right;
 	}
 	
 	/**
@@ -96,7 +93,7 @@ public class BSTNode<E> {
 	 * @param node the new left child
 	 */
 	void setLeftChild(BSTNode<E> node) {
-		// TODO: Complete this method
+		left = node;
 	}
 	
 	/**
@@ -105,7 +102,7 @@ public class BSTNode<E> {
 	 * @param node the new right child
 	 */
 	void setRightChild(BSTNode<E> node) {
-		// TODO: Complete this method
+		right = node;
 	}
 	
 	
@@ -115,7 +112,7 @@ public class BSTNode<E> {
 	 * @param element the new left child
 	 */
 	void addLeftChild(E element) {
-		// TODO: Complete this method
+		left = new BSTNode(element, this);
 	}
 
 	/**
@@ -124,7 +121,7 @@ public class BSTNode<E> {
 	 * @param element the new right child
 	 */
 	void addRightChild(E element) {
-		// TODO: Complete this method
+		right = new BSTNode(element, this);
 	}
 	
 	/**
@@ -133,8 +130,7 @@ public class BSTNode<E> {
 	 * @return true, if is leaf
 	 */
 	boolean isLeaf() {
-		// TODO: Complete this method
-		return false;
+		return (right == null && left == null);
 	}
 	
 	/**
@@ -143,8 +139,7 @@ public class BSTNode<E> {
 	 * @return true, if the current node has a left child; otherwise false
 	 */
 	boolean hasLeft() {
-		// TODO: Complete this method
-		return false;
+		return left != null;
 	}
 
 	/**
@@ -153,7 +148,6 @@ public class BSTNode<E> {
 	 * @return true, if the current node has a right child; otherwise false
 	 */
 	boolean hasRight() {
-		// TODO: Complete this method
-		return false;
+		return right != null;
 	}
 }

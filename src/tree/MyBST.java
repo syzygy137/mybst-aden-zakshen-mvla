@@ -25,7 +25,9 @@ public class MyBST<E extends Comparable<E>> {
 	 * Instantiates a new MyBST .
 	 */
 	public MyBST() {
-		// TODO: Complete this constructor
+		size = 0;
+		strOrder = "";
+		root = null;
 	}
 	
 	// Part 1 - code and validate the insert and search methods
@@ -36,8 +38,7 @@ public class MyBST<E extends Comparable<E>> {
 	 * @return the root node of the Binary Search Tree
 	 */
 	public BSTNode<E> getRoot() {
-		// TODO: Write this method
-		return null;
+		return root;
 	}
 
 	
@@ -47,8 +48,7 @@ public class MyBST<E extends Comparable<E>> {
 	 * @return the size of the Binary Search Tree
 	 */
 	public int getSize() {
-		// TODO: Write this method
-		return -1;
+		return size;
 	}
 	/**
 	 * Insert.
@@ -57,9 +57,33 @@ public class MyBST<E extends Comparable<E>> {
 	 * @return true, if successful; false if e already exists in the BST
 	 */
 	public boolean insert(E e) {
-		// TODO: Write the insert method. Refer to the pseudocode in the 
-		//       slides to help you if needed.
-		return false;
+		if (root == null) {
+			root = new BSTNode(e, null);
+			size++;
+			return true;
+		}
+		BSTNode<E> n = root;
+		BSTNode<E> parent = null;
+		while (n != null) {
+			int compare = e.compareTo(n.getData());
+			if (compare == 0)
+				return false;
+			parent = n;
+			if (compare > 0) {
+				System.out.println("more");
+				n = n.getRightChild();
+				if (n == null)
+					parent.addRightChild(e);
+			}
+			if (compare < 0) {
+				System.out.println("less");
+				n = n.getLeftChild();
+				if (n == null)
+					parent.addLeftChild(e);
+			}
+		}
+		size++;
+		return true;
 	}
 	
 	/**
@@ -69,8 +93,18 @@ public class MyBST<E extends Comparable<E>> {
 	 * @return true, if the element was found in the list...
 	 */
 	public boolean search(E e) {
-		// TODO: Write the search method. Refer to the pseudocode in the 
-		//       slides to help you if needed.
+		BSTNode<E> n = root;
+		while (n != null) {
+			int compare = e.compareTo(n.getData());
+			if (compare == 0)
+				return true;
+			if (compare > 0) {
+				n = n.getRightChild();
+			}
+			if (compare < 0) {
+				n = n.getLeftChild();
+			}
+		}
 		return false; 
 	}
 	
