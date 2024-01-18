@@ -70,13 +70,11 @@ public class MyBST<E extends Comparable<E>> {
 				return false;
 			parent = n;
 			if (compare > 0) {
-				System.out.println("more");
 				n = n.getRightChild();
 				if (n == null)
 					parent.addRightChild(e);
 			}
 			if (compare < 0) {
-				System.out.println("less");
 				n = n.getLeftChild();
 				if (n == null)
 					parent.addLeftChild(e);
@@ -105,7 +103,7 @@ public class MyBST<E extends Comparable<E>> {
 				n = n.getLeftChild();
 			}
 		}
-		return false; 
+		return false;
 	}
 	
 
@@ -137,7 +135,11 @@ public class MyBST<E extends Comparable<E>> {
 	 * @param node the node
 	 */
 	private void preorder(BSTNode<E> node) {
-		// TODO: write the private preorder recursive method
+		strOrder += node.getData().toString() + ",";
+		if (node.hasLeft())
+			preorder(node.getLeftChild());
+		if (node.hasRight())
+			preorder(node.getRightChild());
 	}
 
 	/**
@@ -157,7 +159,11 @@ public class MyBST<E extends Comparable<E>> {
 	 * @param node the node being traversed
 	 */
 	private void inorder(BSTNode<E> node) {
-		// TODO: write the private inorder recursive method
+		if (node.hasLeft())
+			inorder(node.getLeftChild());
+		strOrder += node.getData().toString() + ",";
+		if (node.hasRight())
+			inorder(node.getRightChild());
 	}
 	
 	/**
@@ -177,7 +183,11 @@ public class MyBST<E extends Comparable<E>> {
 	 * @param node the node being traversed
 	 */
 	private void postorder(BSTNode<E> node) {
-		// TODO: write the private postorder recursive method
+		if (node.hasLeft())
+			postorder(node.getLeftChild());
+		if (node.hasRight())
+			postorder(node.getRightChild());
+		strOrder += node.getData().toString() + ",";
 	}
 	
 	// Part 3: Level order Traversal and node removal 
