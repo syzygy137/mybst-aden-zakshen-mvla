@@ -1,6 +1,7 @@
 package tree;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -199,7 +200,7 @@ class MyBSTPart3Test {
 		int size = bst.getSize()-1;
 		String results = "";
 		System.out.println("\nTesting delete from dual children - reinsert deleted node:");
-		System.out.println("   Delete node containing 20:");		
+		System.out.println("   Delete node containing 10:");		
 		status = bst.remove(10);
 		assertTrue(status);
 		assertTrue(bst.getSize() == size);
