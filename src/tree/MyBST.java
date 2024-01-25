@@ -1,5 +1,8 @@
 package tree;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 //Note: You will need to uncomment this when we implement Level-Order traversal
 //import java.util.LinkedList;
 //import java.util.Queue;
@@ -91,19 +94,8 @@ public class MyBST<E extends Comparable<E>> {
 	 * @return true, if the element was found in the list...
 	 */
 	public boolean search(E e) {
-		BSTNode<E> n = root;
-		while (n != null) {
-			int compare = e.compareTo(n.getData());
-			if (compare == 0)
-				return true;
-			if (compare > 0) {
-				n = n.getRightChild();
-			}
-			if (compare < 0) {
-				n = n.getLeftChild();
-			}
-		}
-		return false;
+		BSTNode<E> n = getMatchingNode(e);
+		return n != null;
 	}
 	
 
@@ -125,6 +117,8 @@ public class MyBST<E extends Comparable<E>> {
 	 */
 	public void preorder() {
 		strOrder = "";
+		if (root == null)
+			return;
 		preorder(root);
 	}
 	
@@ -149,6 +143,8 @@ public class MyBST<E extends Comparable<E>> {
 	 */
 	public void inorder() {
 		strOrder = "";
+		if (root == null)
+			return;
 		inorder(root);
 	}
 	
@@ -173,6 +169,8 @@ public class MyBST<E extends Comparable<E>> {
 	 */
 	public void postorder() {
 		strOrder = "";
+		if (root == null)
+			return;
 		postorder(root);
 	}
 	
@@ -200,7 +198,18 @@ public class MyBST<E extends Comparable<E>> {
 	 */
 	public void levelorder() {
 		strOrder = "";
-		// TODO: write the levelorder method
+		Queue<BSTNode<E>> queue = new LinkedList<BSTNode<E>>();
+		BSTNode<E> n;
+		queue.add(root);
+		while(!queue.isEmpty()) {
+			n = queue.poll();
+			if (n != null) {
+				queue.add(n.getLeftChild());
+				queue.add(n.getRightChild());
+				strOrder += n.getData() + ",";
+			}
+			
+		}
 	}
 	
 	/**
@@ -210,8 +219,18 @@ public class MyBST<E extends Comparable<E>> {
 	 * @return the matching BSTNode if element was found; null otherwise.
 	 */
 	private BSTNode<E> getMatchingNode(E e) {
-		// TODO: write this method - should be similar to search except that it
-		//       returns a BSTNode
+		BSTNode<E> n = root;
+		while (n != null) {
+			int compare = e.compareTo(n.getData());
+			if (compare == 0)
+				return n;
+			if (compare > 0) {
+				n = n.getRightChild();
+			}
+			if (compare < 0) {
+				n = n.getLeftChild();
+			}
+		}
 		return null;
 	}
 
@@ -227,18 +246,33 @@ public class MyBST<E extends Comparable<E>> {
 	 */
 
 	private void connectToParent(boolean left, BSTNode<E> parent, BSTNode<E> child) {
-		// TODO: write this method
+		if (parent == null) {
+			root = child;
+			if (child != null)
+				child.setParent(null);
+		} else {
+			if (child != null)
+				child.setParent(parent);
+			if (left) {
+				parent.setLeftChild(child);
+			} else {
+				parent.setRightChild(child);
+			}
+		}
 	}
 	
 	/**
-	 * Finds left-most node in the right child of the specified node.
+	 * Finds left-most node of the specified node.
 	 *
 	 * @param node the node
 	 * @return the BST node
 	 */
 	private BSTNode<E> findLeftMostNode(BSTNode<E> node) {
-		// TODO: write this method
-		return null;
+		BSTNode<E> n = node;
+		while(n.getLeftChild() != null) {
+			n = n.getLeftChild();
+		}
+		return n;
 	}
 
 	/**
@@ -248,10 +282,48 @@ public class MyBST<E extends Comparable<E>> {
 	 * @return true if the element was found and deleted; false otherwise
 	 */
 	public boolean remove(E e) {
-		// TODO: write this method. Refer to the slides to review all cases
-		//       that must be handled. Use the helper methods above to simplify
-		//       your code.
-		return false;
+		BSTNode<E> n = getMatchingNode(e);
+		if (n == null)
+			return false;
+		BSTNode<E> p = n.getParent();
+		reconnect(n, p);
+		n.setLeftChild(null);
+		n.setRightChild(null);
+		n.setParent(null);
+		size--;
+		return true;
+	}
+	
+	/**
+	 * Rearrange the connections depending on the node and the parent
+	 *
+	 * @param The node and parent
+	 * @return null
+	 */
+	public void reconnect(BSTNode<E> n, BSTNode<E> p) {
+		boolean left = p != null ? p.getData().compareTo(n.getData()) > 0 : false;
+		if (n.hasRight()) {
+			BSTNode<E> right = n.getRightChild();
+			if (!n.hasLeft()) {
+				connectToParent(left, p, right);
+			} else {
+				BSTNode<E> lmn = findLeftMostNode(n.getRightChild());
+				if (right.equals(lmn)) {
+					connectToParent(true, lmn, n.getLeftChild());
+					connectToParent(left, p, lmn);
+				} else {
+					connectToParent(true, lmn.getParent(), lmn.getRightChild());
+					connectToParent(true, lmn, n.getLeftChild());
+					connectToParent(false, lmn, n.getRightChild());
+					connectToParent(left, p, lmn);
+				}
+				
+			}	
+		} else if (n.hasLeft()) {
+			connectToParent(left, p, n.getLeftChild());
+		} else {
+			connectToParent(left, p, null);
+		}
 	}
 }
 
